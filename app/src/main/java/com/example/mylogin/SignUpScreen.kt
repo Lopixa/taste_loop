@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.OutlinedTextField
@@ -20,10 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun LoginScreen(onSignUpClick: () -> Unit, onLoginSuccess: () -> Unit) { // Tambahkan parameter onLoginSuccess
+fun SignUpScreen(onSignUpSuccess: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var isRememberMeChecked by remember { mutableStateOf(false) }
+    var confirmPassword by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -34,18 +33,15 @@ fun LoginScreen(onSignUpClick: () -> Unit, onLoginSuccess: () -> Unit) { // Tamb
     ) {
         Image(
             painter = painterResource(id = R.drawable.download),
-            contentDescription = "Login Image",
+            contentDescription = "Sign Up Image",
             modifier = Modifier.size(200.dp)
         )
 
-        Text(text = "Welcome Back", fontSize = 28.sp, fontWeight = FontWeight.Bold)
-
-        Spacer(modifier = Modifier.height(4.dp))
-
-        Text(text = "Login To Your Account")
+        Text(text = "Create Your Account", fontSize = 28.sp, fontWeight = FontWeight.Bold)
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Input Email
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
@@ -54,6 +50,7 @@ fun LoginScreen(onSignUpClick: () -> Unit, onLoginSuccess: () -> Unit) { // Tamb
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Input Password
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -61,60 +58,37 @@ fun LoginScreen(onSignUpClick: () -> Unit, onLoginSuccess: () -> Unit) { // Tamb
             visualTransformation = PasswordVisualTransformation()
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 50.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Remember Me di sebelah kiri
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(
-                    checked = isRememberMeChecked,
-                    onCheckedChange = { isRememberMeChecked = it }
-                )
-                Text(text = "Remember Me")
-            }
-            TextButton(
-                onClick = { /* Tindakan ketika tombol lupa password ditekan */ }
-            ) {
-                Text(
-                    text = "Forgot Password?",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Normal
-                )
-            }
-        }
+        // Input Konfirmasi Password
+        OutlinedTextField(
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            label = { Text(text = "Confirm Password") },
+            visualTransformation = PasswordVisualTransformation()
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Tombol Sign Up
         Button(onClick = {
-            // Simulasi logika login di sini
-            Log.i(
-                "Credential",
-                "Email: $email, Password: $password, Remember Me: $isRememberMeChecked"
-            )
-            // Panggil onLoginSuccess ketika login berhasil
-            onLoginSuccess()
+            Log.i("SignUp", "Email: $email, Password: $password, Confirm Password: $confirmPassword")
+            onSignUpSuccess()  // Pindah ke Login setelah berhasil Sign Up
         }) {
-            Text(text = "LOGIN")
+            Text(text = "SIGN UP")
         }
 
         Spacer(modifier = Modifier.height(10.dp))
 
+        // Navigasi kembali ke Login
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = "Belum mempunyai akun? ", fontSize = 14.sp)
-            TextButton(
-                onClick = { onSignUpClick() } // Berpindah ke Sign Up screen
-            ) {
-                Text(text = "Sign Up", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+            Text(text = "Sudah punya akun?", fontSize = 14.sp)
+            TextButton(onClick = { onSignUpSuccess() }) {
+                Text(text = "Login", fontSize = 14.sp, fontWeight = FontWeight.Bold)
             }
         }
     }
