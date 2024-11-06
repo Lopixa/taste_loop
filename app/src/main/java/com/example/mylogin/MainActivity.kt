@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyLoginTheme {
-                App()  // Memanggil fungsi App untuk navigasi antara Splash Screen, Login, dan Sign Up
+                App()
             }
         }
     }
