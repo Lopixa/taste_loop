@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyLoginTheme {
-                App()
+                App() // Panggil App() untuk mengatur navigasi antar layar
             }
         }
     }
@@ -46,9 +46,9 @@ fun App() {
                 onSignUpSuccess = { navController.navigate("login") }  // Navigasi kembali ke Login setelah signup
             )
         }
-        // Route ke MainScreen
+        // Route ke MainScreen (yang akan menampilkan Home, Profile, Settings)
         composable("main") {
-            MainScreen()  // Menampilkan layar utama setelah login
+            MainScreen()  // MainScreen mengelola navigasi bagian bawah (Bottom Navigation)
         }
     }
 }

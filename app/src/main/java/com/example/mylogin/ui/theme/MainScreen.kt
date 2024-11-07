@@ -1,12 +1,15 @@
 package com.example.mylogin.ui.theme
 
+import HomeScreen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -20,7 +23,7 @@ fun MainScreen() {
     val navController = rememberNavController()
 
     Scaffold(
-        bottomBar = { BottomNavigationBar(navController = navController) }
+        bottomBar = { BottomNavigationBar(navController = navController) } // Menambahkan BottomNavigationBar
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -28,7 +31,7 @@ fun MainScreen() {
                 .background(Color(0xFFFCF4EB))
                 .padding(innerPadding)
         ) {
-            NavigationHost(navController = navController)
+            NavigationHost(navController = navController) // Menyediakan area untuk navigasi antar halaman
         }
     }
 }
@@ -69,27 +72,22 @@ fun BottomNavigationBar(navController: NavHostController) {
 @Composable
 fun NavigationHost(navController: NavHostController) {
     NavHost(navController, startDestination = NavigationItem.Home.route) {
+        // Route ke HomeScreen baru
         composable(NavigationItem.Home.route) {
-            HomeScreen()
+            HomeScreen()  // Menggunakan HomeScreen baru yang menampilkan menu makanan
         }
         composable(NavigationItem.Profile.route) {
-            ProfileScreen()
+            ProfileScreen()  // ProfileScreen tetap
         }
         composable(NavigationItem.Settings.route) {
-            SettingsScreen()
+            SettingsScreen()  // SettingsScreen tetap
         }
     }
 }
 
-sealed class NavigationItem(var route: String, var icon: Int, var title: String) {
-    object Home : NavigationItem("home", R.drawable.ic_home, "Home")
-    object Profile : NavigationItem("profile", R.drawable.ic_profile, "Profile")
-    object Settings : NavigationItem("settings", R.drawable.ic_settings, "Settings")
-}
-
 @Composable
-fun HomeScreen() {
-    Text(text = "Home Screen")
+fun SettingsScreen() {
+    Text(text = "Setting Screen")
 }
 
 @Composable
@@ -97,9 +95,11 @@ fun ProfileScreen() {
     Text(text = "Profile Screen")
 }
 
-@Composable
-fun SettingsScreen() {
-    Text(text = "Settings Screen")
+// Kelas NavigationItem untuk mendefinisikan rute navigasi
+sealed class NavigationItem(var route: String, var icon: Int, var title: String) {
+    object Home : NavigationItem("home", R.drawable.ic_home, "Home")
+    object Profile : NavigationItem("profile", R.drawable.ic_profile, "Profile")
+    object Settings : NavigationItem("settings", R.drawable.ic_settings, "Settings")
 }
 
 @Preview(showBackground = true)
