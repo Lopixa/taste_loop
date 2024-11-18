@@ -17,6 +17,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.example.mylogin.R
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.dp
+
 
 @Composable
 fun MainScreen() {
@@ -87,13 +95,59 @@ fun NavigationHost(navController: NavHostController) {
 
 @Composable
 fun SettingsScreen() {
-    Text(text = "Setting Screen")
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        // Pengaturan Dark Mode
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Dark Mode",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.weight(1f)
+            )
+            Switch(
+                checked = false, // Ubah sesuai dengan status Dark Mode
+                onCheckedChange = { /* Tambahkan logika untuk Dark Mode */ }
+            )
+        }
+
+        // Pengaturan Notifikasi
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Notifikasi",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.weight(1f)
+            )
+            Switch(
+                checked = true, // Ubah sesuai dengan status Notifikasi
+                onCheckedChange = { /* Tambahkan logika untuk Notifikasi */ }
+            )
+        }
+
+        // Tombol Logout
+        Button(
+            onClick = { /* Tambahkan logika untuk Logout */ },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 24.dp)
+        ) {
+            Text(text = "Logout")
+        }
+    }
 }
 
-@Composable
-fun ProfileScreen() {
-    Text(text = "Profile Screen")
-}
 
 // Kelas NavigationItem untuk mendefinisikan rute navigasi
 sealed class NavigationItem(var route: String, var icon: Int, var title: String) {
