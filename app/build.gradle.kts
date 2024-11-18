@@ -82,5 +82,10 @@ dependencies {
     // Debugging dependencies
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation("androidx.compose.ui:ui:1.0.5")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha13")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.0.5")
+    implementation("androidx.navigation:navigation-compose:2.4.0-beta02")
 }
 
