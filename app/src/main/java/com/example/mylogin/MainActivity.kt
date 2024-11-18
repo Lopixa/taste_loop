@@ -50,5 +50,6 @@ fun App() {
         composable("main") {
             MainScreen()  // MainScreen mengelola navigasi bagian bawah (Bottom Navigation)
         }
+
     }
 }
