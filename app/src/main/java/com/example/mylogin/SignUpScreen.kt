@@ -17,12 +17,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.sulseltour.AuthViewModel
 
 @Composable
-fun SignUpScreen(onSignUpSuccess: () -> Unit) {
+fun SignUpScreen(viewModel: AuthViewModel) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+    var isRegistered by remember { mutableStateOf(false)}
 
     Column(
         modifier = Modifier
@@ -72,10 +74,11 @@ fun SignUpScreen(onSignUpSuccess: () -> Unit) {
 
         // Tombol Sign Up
         Button(onClick = {
-            Log.i("SignUp", "Email: $email, Password: $password, Confirm Password: $confirmPassword")
-            onSignUpSuccess()  // Pindah ke Login setelah berhasil Sign Up
+            viewModel.register(email, password) { success ->
+                isRegistered = success
+            }
         }) {
-            Text(text = "SIGN UP")
+            Text("Register")
         }
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -87,7 +90,7 @@ fun SignUpScreen(onSignUpSuccess: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = "Sudah punya akun?", fontSize = 14.sp)
-            TextButton(onClick = { onSignUpSuccess() }) {
+            TextButton(onClick = { }) {
                 Text(text = "Login", fontSize = 14.sp, fontWeight = FontWeight.Bold)
             }
         }

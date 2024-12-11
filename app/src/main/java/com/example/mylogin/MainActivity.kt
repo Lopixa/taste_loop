@@ -3,6 +3,7 @@ package com.example.mylogin
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.NavHost
@@ -10,13 +11,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.mylogin.ui.theme.MainScreen
 import com.example.mylogin.ui.theme.MyLoginTheme
+import com.example.sulseltour.AuthViewModel
 
 class MainActivity : ComponentActivity() {
+    private val viewModel: AuthViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MyLoginTheme {
-                App() // Panggil App() untuk mengatur navigasi antar layar
+                SignUpScreen(viewModel) // Panggil App() untuk mengatur navigasi antar layar
             }
         }
     }
@@ -41,11 +44,7 @@ fun App() {
             )
         }
         // Route ke Sign Up Screen
-        composable("signup") {
-            SignUpScreen(
-                onSignUpSuccess = { navController.navigate("login") }  // Navigasi kembali ke Login setelah signup
-            )
-        }
+
         // Route ke MainScreen (yang akan menampilkan Home, Profile, Settings)
         composable("main") {
             MainScreen()  // MainScreen mengelola navigasi bagian bawah (Bottom Navigation)
