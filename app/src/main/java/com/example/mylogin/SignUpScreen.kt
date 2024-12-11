@@ -20,7 +20,10 @@ import androidx.compose.ui.unit.sp
 import com.example.sulseltour.AuthViewModel
 
 @Composable
-fun SignUpScreen(viewModel: AuthViewModel) {
+fun SignUpScreen(
+    viewModel: AuthViewModel,  // Pass the ViewModel
+    onSignUpSuccess: () -> Unit  // Pass the callback for successful sign-up
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
@@ -72,16 +75,28 @@ fun SignUpScreen(viewModel: AuthViewModel) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Tombol Sign Up
+// Tombol Sign Up
         Button(onClick = {
-            viewModel.register(email, password) { success ->
-                isRegistered = success
+            // Validasi input
+            if (password == confirmPassword && email.isNotEmpty() && password.isNotEmpty()) {
+                Log.i("SignUp", "Email: $email, Password: $password, Confirm Password: $confirmPassword")
+                viewModel.register(email, password) { success ->
+                    if (success) {
+                        onSignUpSuccess()
+                    } else {
+                        Log.e("SignUp", "Registrasi gagal")
+                    }
+                }
+            } else {
+                // Tampilkan pesan jika validasi gagal (password tidak cocok atau input kosong)
+                Log.e("SignUp", "Validasi gagal: Periksa email dan password.")
             }
         }) {
-            Text("Register")
+            Text(text = "Register")
         }
 
         Spacer(modifier = Modifier.height(10.dp))
+
 
         // Navigasi kembali ke Login
         Row(
@@ -90,9 +105,10 @@ fun SignUpScreen(viewModel: AuthViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(text = "Sudah punya akun?", fontSize = 14.sp)
-            TextButton(onClick = { }) {
+            TextButton(onClick = { onSignUpSuccess() }) {
                 Text(text = "Login", fontSize = 14.sp, fontWeight = FontWeight.Bold)
             }
         }
     }
 }
+
