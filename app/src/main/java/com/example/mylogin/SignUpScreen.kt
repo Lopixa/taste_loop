@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sulseltour.AuthViewModel
+import com.example.mylogin.AuthViewModel
 
 @Composable
 fun SignUpScreen(
@@ -27,7 +27,6 @@ fun SignUpScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    var isRegistered by remember { mutableStateOf(false)}
 
     Column(
         modifier = Modifier
@@ -75,21 +74,14 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-// Tombol Sign Up
+        // Tombol Sign Up
         Button(onClick = {
-            // Validasi input
             if (password == confirmPassword && email.isNotEmpty() && password.isNotEmpty()) {
-                Log.i("SignUp", "Email: $email, Password: $password, Confirm Password: $confirmPassword")
                 viewModel.register(email, password) { success ->
                     if (success) {
                         onSignUpSuccess()
-                    } else {
-                        Log.e("SignUp", "Registrasi gagal")
                     }
                 }
-            } else {
-                // Tampilkan pesan jika validasi gagal (password tidak cocok atau input kosong)
-                Log.e("SignUp", "Validasi gagal: Periksa email dan password.")
             }
         }) {
             Text(text = "Register")
@@ -97,16 +89,14 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(10.dp))
 
-
         // Navigasi kembali ke Login
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            horizontalArrangement = Arrangement.Center
         ) {
-            Text(text = "Sudah punya akun?", fontSize = 14.sp)
+            Text(text = "Already have an account?")
             TextButton(onClick = { onSignUpSuccess() }) {
-                Text(text = "Login", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Login")
             }
         }
     }

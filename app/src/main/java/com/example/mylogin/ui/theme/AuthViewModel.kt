@@ -1,4 +1,4 @@
-package com.example.sulseltour
+package com.example.mylogin
 
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
