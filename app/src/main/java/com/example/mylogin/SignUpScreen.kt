@@ -17,9 +17,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mylogin.AuthViewModel
 
 @Composable
-fun SignUpScreen(onSignUpSuccess: () -> Unit) {
+fun SignUpScreen(
+    viewModel: AuthViewModel,  // Pass the ViewModel
+    onSignUpSuccess: () -> Unit  // Pass the callback for successful sign-up
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
@@ -72,10 +76,15 @@ fun SignUpScreen(onSignUpSuccess: () -> Unit) {
 
         // Tombol Sign Up
         Button(onClick = {
-            Log.i("SignUp", "Email: $email, Password: $password, Confirm Password: $confirmPassword")
-            onSignUpSuccess()  // Pindah ke Login setelah berhasil Sign Up
+            if (password == confirmPassword && email.isNotEmpty() && password.isNotEmpty()) {
+                viewModel.register(email, password) { success ->
+                    if (success) {
+                        onSignUpSuccess()
+                    }
+                }
+            }
         }) {
-            Text(text = "SIGN UP")
+            Text(text = "Register")
         }
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -83,13 +92,13 @@ fun SignUpScreen(onSignUpSuccess: () -> Unit) {
         // Navigasi kembali ke Login
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            horizontalArrangement = Arrangement.Center
         ) {
-            Text(text = "Sudah punya akun?", fontSize = 14.sp)
+            Text(text = "Already have an account?")
             TextButton(onClick = { onSignUpSuccess() }) {
-                Text(text = "Login", fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                Text(text = "Login")
             }
         }
     }
 }
+

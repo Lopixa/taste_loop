@@ -92,16 +92,22 @@ fun LoginScreen(onSignUpClick: () -> Unit, onLoginSuccess: () -> Unit) { // Tamb
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            // Simulasi logika login di sini
-            Log.i(
-                "Credential",
-                "Email: $email, Password: $password, Remember Me: $isRememberMeChecked"
-            )
-            // Panggil onLoginSuccess ketika login berhasil
-            onLoginSuccess()
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                // Simulasi logika login di sini
+                Log.i(
+                    "Credential",
+                    "Email: $email, Password: $password, Remember Me: $isRememberMeChecked"
+                )
+                // Panggil onLoginSuccess ketika login berhasil
+                onLoginSuccess()
+            } else {
+                // Tampilkan pesan kesalahan atau lakukan tindakan lain jika email atau password kosong
+                Log.e("LoginError", "Email atau password tidak boleh kosong")
+            }
         }) {
             Text(text = "LOGIN")
         }
+
 
         Spacer(modifier = Modifier.height(10.dp))
 
